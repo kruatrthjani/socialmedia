@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.disabled-container {
+    pointer-events: none; /* Disable all interactions inside */
+    opacity: 0.5; /* Optional: visually indicate that the container is disabled */
+  }
+
+
+
+  .centered-container {
+    position: fixed;
+    top: 50%; /* 50% from the top of the viewport */
+    left: 50%; /* 50% from the left of the viewport */
+    transform: translate(-50%, -50%); /* Offset by half of its width and height */
+    width: 30%; /* Adjust as necessary for full width or a specific width */
+    height:70%;
+    z-index: 1;
+  }
+
+  html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto; /* Enables the outer scrollbar */
+}
+
+#root {
+  height: 100%;
+}

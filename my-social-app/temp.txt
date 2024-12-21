@@ -1,0 +1,557 @@
+import { useState, useEffect,useRef, useCallback } from "react";
+import { fetchPostDetails } from "../../store/postSlice";
+import { useDispatch } from "react-redux";
+import { allPostsFetch, editPost, deletePost } from "../../store/allPost";
+import { fetchUserById } from "../../store/oneuserSlice";
+import { fetchUsers } from "../../store/allusers";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useSelector } from "react-redux";
+
+function HomePage() {
+
+  // const encodedToken = JSON.parse(localStorage.getItem("loggedIn"));
+  //     const decodedToken = jwtDecode(encodedToken.token);
+  //     const currentUserId = decodedToken._id;
+  // const navigate = useNavigate();
+  // const [postContent, setPostContent] = useState(""); // Track input field value
+  // const dispatch = useDispatch();
+  // const [isDisabled,setIsDisabled]=useState(false);
+  // const [editpop,setEditPop]=useState("")
+  // const [profilePreview,setProfilePreview]=useState(null)
+  // const [editingPost,setEditingPost]=useState("")
+  // const [imagePreview, setImagePreview] = useState(null); // State to hold image preview URL
+  // const {userData} = useSelector((state)=>state.oneUser)
+  // const { posts, status, error } = useSelector((state) => state.allPosts);
+  // const { allUsers, status: usersStatus } = useSelector((state) => state.allUser)
+  // Fetch user data on component mount
+//   useEffect(() => {
+//     dispatch(fetchUsers());
+//   }, [dispatch]);
+
+   
+  
+  
+//   useEffect(() => {
+//     dispatch(fetchUserById(currentUserId))
+    
+//   }, [ dispatch,currentUserId]);
+  
+//   // Fetch posts when status is idle
+//   useEffect(() => {
+//     if (status === "idle") {
+//       dispatch(allPostsFetch());
+//     }
+//   }, [dispatch, status]);
+
+//   // Handle navigation to post details page
+//   const postDetailHandler = async (postId) => {
+//     try {
+//       await dispatch(fetchPostDetails(postId)).unwrap();
+//       navigate(`/post/${postId}`);
+//     } catch (err) {
+//       console.error("Error fetching post details:", err);
+//     }
+//   };
+
+//   // Handle navigation to user profile
+//   const userDetailHandler = (username) => {
+//     navigate(`/profile/${username}`);
+//   };
+
+//   // Handle form submission to create a post
+//   const postContentHandler = async (e) => {
+//     e.preventDefault(); // Prevent page reload
+
+    
+
+//     try {
+//       const fileInput = document.querySelector("input[type='file']");
+//       const file = fileInput?.files[0];
+
+//       let base64Image = null;
+//       if (file) {
+//         const reader = new FileReader();
+//         base64Image = await new Promise((resolve, reject) => {
+//           reader.onload = () => resolve(reader.result);
+//           reader.onerror = () => reject(reader.error);
+//           reader.readAsDataURL(file); // Convert file to base64          
+//         });
+        
+//       }
+
+//       const postData = {
+//         content: postContent,
+//         mediaURL: base64Image, // Add base64-encoded image (optional)
+//       };
+
+//       console.log("post data=",postData)
+//       // Retrieve the token from localStorage and ensure it's correctly formatted
+      
+
+
+//       if (!encodedToken.token) {
+//         throw new Error("Authorization token is missing or invalid.");
+//       }
+
+//       const response = await fetch("/api/posts", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           authorization: `Bearer ${encodedToken.token}`, // Add the token with the 'Bearer' prefix
+//         },
+//         body: JSON.stringify({ postData }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log("Post created successfully:", result);
+//       setPostContent(""); // Reset post content
+//       setImagePreview(null); // Reset image preview
+//       setProfilePreview(null)
+//       dispatch(allPostsFetch()); // Fetch updated posts
+//     } catch (error) {
+//       console.error("Error creating post:", error);
+//     }
+//   };
+
+
+//   const editPostHandler=async(e)=>{
+//     console.log("edit post from here")// why this not worked
+//     e.preventDefault();
+//     try {
+//       const fileInput = document.querySelector("input[type='file']");
+//       const file = fileInput?.files[0];
+
+//       let base64Image = null;
+//       if (file) {
+//         const reader = new FileReader();
+//         base64Image = await new Promise((resolve, reject) => {
+//           reader.onload = () => resolve(reader.result);
+//           reader.onerror = () => reject(reader.error);
+//           reader.readAsDataURL(file); // Convert file to base64
+//         });
+//       }
+
+//       const postData = {
+//         content: postContent,
+//         mediaURL: base64Image || imagePreview, // Add base64-encoded image (optional)
+//       };
+
+//       setPostContent(""); // Reset post content
+//       setImagePreview(null); // Reset image preview
+//       setProfilePreview(null)
+//       // Retrieve the token from localStorage and ensure it's correctly formatted
+//       const loggedIn = localStorage.getItem("loggedIn");
+//       const token = loggedIn ? JSON.parse(loggedIn).token : null;
+
+//       if (!token) {
+//         throw new Error("Authorization token is missing or invalid.");
+//       }
+//       console.log("postId=",editingPost)
+//       const response = await fetch(`/api/posts/edit/${editingPost}`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           authorization: `Bearer ${token}`, // Add the token with the 'Bearer' prefix
+//         },
+//         body: JSON.stringify({ postData }),
+//       });
+//       console.log("edit status=",response.status)
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log("Post created successfully:", result);
+//       setIsDisabled(false);
+//       dispatch(allPostsFetch()); // Fetch updated posts
+//     } catch (error) {
+//       console.error("Error creating post:", error);
+//     }
+
+//   }
+//   // Handle file input change to display preview
+//   const handleFileChange = (event) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//       const reader = new FileReader();
+//       console.log("reader=",reader)
+//       reader.onloadend = () => {
+//         setImagePreview(reader.result); // Set image preview URL
+//       };
+//       reader.readAsDataURL(file); // Convert file to base64
+//     }
+//   };
+
+//   // Handle editing a post
+// const editViewHandler = async ({_id,postUser,mediaURL,content}) => {
+  
+//     setImagePreview(mediaURL);
+//     setPostContent(content)
+//     setProfilePreview(postUser?.avatarUrl)
+//     setEditingPost(_id)
+//     console.log("anything happened")// this is printed
+//     setIsDisabled(true)    
+//     //postUser?.avatarUrl,mediaURL,content
+//   };
+
+//   // Handle deleting a post
+//   const deletePostHandler = async (postId,userId) => {
+//     try {
+//       console.log("postId=",postId)//printed
+//       console.log("user_d=",userId)//printed
+      
+//        const response = await fetch(`/api/posts/${postId}`,{
+//          method:"delete",
+//          headers:{
+//            authorization:`Bearer ${encodedToken.token}`
+//          }
+//        });
+//        console.log("response=",response.status)
+//        dispatch(allPostsFetch()); // Refresh posts
+//     } catch (error) {
+//       console.error("Error deleting post:", error);
+//     }
+//   };
+
+
+
+  
+
+
+//   const bookmarkPostHandler = async (postId) => {
+//     try {
+//       // Retrieve token and current user ID
+//       const encodedToken = JSON.parse(localStorage.getItem("loggedIn"));
+//       const decodedToken = jwtDecode(encodedToken.token);
+      
+//       const currentUSer=allUsers.find((user) => user._id === currentUserId)
+//       console.log("current=",currentUSer)
+//       // Access the current user's bookmarks
+//       const isBookmarked = currentUSer.bookmarks.some(
+//         (book) => book._id === postId
+//       );
+  
+//       // Determine API endpoint based on bookmark status
+//       const apiEndpoint = isBookmarked
+//         ? `/api/users/remove-bookmark/${postId}/`
+//         : `/api/users/bookmark/${postId}/`;
+  
+//       const response = await fetch(apiEndpoint, {
+//         method: "POST",
+//         headers: {
+//           authorization: `Bearer ${encodedToken.token}`,
+//         },
+//       });
+  
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+  
+//       // Re-fetch posts to reflect changes
+      
+//       dispatch(allPostsFetch())
+//       dispatch(fetchUserById(currentUserId))
+//       console.log(isBookmarked ? "Bookmark removed" : "Bookmark added");
+//     } catch (err) {
+//       console.error("Error in bookmarkPostHandler:", err);
+//     }
+//   };
+  
+  
+
+  
+
+//   const likePostHandler =  useCallback(async(postId) =>{
+//     try {
+  
+      
+
+//       // Find the post in the `posts` array
+//       const post = posts.find((post) => post._id === postId);
+
+//       if (!post) {
+//         console.error("Post not found");
+//         return;
+//       }
+
+//       // Check if the user already liked the post
+//       const isLiked = post.likes.likedBy.some((user) => user._id === currentUserId);
+
+//       // Determine API endpoint and method
+//       const apiEndpoint = isLiked
+//         ? `/api/posts/dislike/${postId}` // Dislike API
+//         : `/api/posts/like/${postId}`; // Like API
+
+//       const response = await fetch(apiEndpoint, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           authorization: `Bearer ${encodedToken.token}`,
+//         },
+//         body: JSON.stringify({ userId: currentUserId }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log(isLiked ? "Post disliked:" : "Post liked:", result);
+
+//       // Re-fetch posts to update the UI
+//       dispatch(allPostsFetch());
+//       dispatch(fetchUserById(currentUserId))
+//     } catch (error) {
+//       console.error("Error toggling like/dislike:", error);
+//     }
+//   },[posts,currentUserId,encodedToken])
+
+//   function editclick(postId){
+//         if(editpop==""){
+//       setEditPop(postId)
+//     }
+//     else{
+//       setEditPop("")
+//     }
+//   }
+  
+//   function editCancelHandler(){    
+//     setIsDisabled(false);
+//     setImagePreview(null);
+//     setPostContent("");
+//   }
+
+
+//   // Handle loading and error states
+//   if (status === "loading") return <p>Loading posts...</p>;
+//   if (error) return <p>Error: {error}</p>;
+  
+//   return (
+//     <div>
+//     <div className={isDisabled ? `disabled-container`:''}>
+//     {/* Create Post Section */}
+//     <div className="w-full bg-black text-white border-b pb-2 " >
+//       <p className="text-center">Home</p>
+//       <form onSubmit={postContentHandler} className="flex flex-col gap-y-4" >
+//         {/* User Avatar and Text Input */}
+//         <div className="flex items-center gap-x-2 ml-2">
+//           <textarea
+//             className="text-xs font-light bg-transparent flex-1"
+//             placeholder="What's happening?"
+//             name="post"
+//             value={postContent}
+//             onChange={(e) => setPostContent(e.target.value)} // Update state on input change
+//             rows={3}
+//             cols={60}
+//           />
+//         </div>
+  
+//         {/* File Upload */}
+//         <div className="flex items-center gap-x-2 px-2">
+//           {/* Image Preview */}
+//           {imagePreview && (
+//             <div className="mt-4">
+//               <img
+//                 src={imagePreview}
+//                 alt="Selected preview"
+//                 className="w-32 h-32 object-cover rounded-md"
+//               />
+//             </div>
+//           )}
+  
+//           {/* Submit Button */}
+//           <div className="flex justify-end gap-x-2 items-center mr-2 w-full">
+//             <label htmlFor="file-input">
+//               <i className="fa-regular fa-image text-gray-400 cursor-pointer text-xl"></i>{" "}
+//               {/* Icon for file selection */}
+//             </label>
+//             <input
+//               id="file-input"
+//               type="file"
+//               accept="image/*"
+//               className="hidden" // Hide the actual file input
+//               onChange={handleFileChange} // Trigger preview change on file selection
+//             />
+//             <button
+//               className="px-2 text-xs bg-pink-500 rounded-xl text-center pb-1"
+//               type="submit"
+//             >
+//               Post
+//             </button>
+//           </div>
+//         </div>
+//       </form>
+//     </div>
+  
+//     {/* Posts List */}
+//     <div>
+//       {posts.map(({ _id, username, createdAt, content, mediaURL, likes }) => {
+//         const postUser = allUsers.find((user) => user.username === username);
+//         const currentUSer=allUsers.find((user) => user._id === currentUserId)
+//         return (
+//           <div
+//             key={_id} // Assign unique key to each post
+//             className="bg-gray-800 p-6 rounded-lg shadow-lg transform transition duration-300 mb-4"
+//           >
+//             {/* Post Card Header */}
+//             <div className=" flex h-16">
+//             <div className="text-white flex justify-end w-full "  >
+//               <div className=" flex mt-0" tabIndex="0" >
+//               {editpop===_id && <div className="bg-gray-500 text-white px-1 rounded-sm mt-0 h-14" >             
+//               <button  className="block w-full " onClick={()=>{ editViewHandler({_id,postUser,mediaURL,content})}}>Edit</button>
+//               <button  onClick={()=>{deletePostHandler(_id,postUser._id)}} className="block w-full">delete</button></div>}
+//              {userData.user.username===username && <button  onClick={()=>editclick(_id)} className="flex">
+//                 <i
+//                   className="fa-solid fa-ellipsis-vertical"
+//                   style={{ color: "#f7f7f8" }}
+//                 ></i>
+//               </button>}
+//               </div>
+//             </div> 
+//             </div>
+//             <div className="flex items-center mb-4">
+//               {/* User Avatar */}
+              
+//               <img              
+//                 src={postUser?.avatarUrl || "default-avatar-url.jpg"} // Fallback in case avatarUrl is missing
+//                 alt={`${username}'s avatar`}
+//                 className="w-12 h-12 bg-gray-600 rounded-full object-cover mr-4"
+//                 onClick={() => userDetailHandler(username)}
+//               />
+//               {/* User Info */}
+//               <div>
+//                 <p className="text-white font-semibold">{username}</p>
+//                 <p className="text-sm text-gray-400">
+//                   {new Date(createdAt).toLocaleDateString("en-GB", {
+//                     day: "numeric",
+//                     month: "long",
+//                     year: "numeric",
+//                   })}
+//                 </p>
+//               </div>
+//             </div>
+//             {/* Post Content */}
+            
+//             <div
+//               className="text-white text-sm mb-4 flex flex-col items-center"                            
+//               onClick={() => postDetailHandler(_id)}
+//             >
+//               <p>{content}</p>
+//               {mediaURL && (
+//                 <img
+//                   className="mt-4 w-9/12 h-auto rounded-lg"
+//                   src={mediaURL}
+//                   alt="Post Media"
+//                 />
+//               )}
+//             </div>
+//             {/* Post Actions */}
+//             <div className="flex space-x-4">
+//               <button
+//                 className={`text-gray-400 gap-x-1 flex items-center ${
+//                   likes.likedBy.some((user) => user._id === currentUserId)
+//                     ? "text-pink-500"
+//                     : ""
+//                 }`}
+//                 onClick={() => likePostHandler(_id)}
+//               >
+//                 <i
+//                   className={`fa-heart ${
+//                     likes.likedBy.some((user) => user._id === currentUserId)
+//                       ? "fa-solid"
+//                       : "fa-regular"
+//                   }`}
+//                 ></i>
+//                 <p>{likes.likeCount}</p>
+//               </button>
+//               <button className="text-gray-400 hover:text-white">
+//                 <i className="fa-regular fa-comment"></i>
+//               </button>
+//               <button
+//                 className="text-gray-400 hover:text-white"
+//                 onClick={() => bookmarkPostHandler(_id)}
+//               >                 
+//               <i
+//                 className={`fa-bookmark ${
+//                 currentUSer.bookmarks.some((post)=>post._id===_id)
+//                 ? "fa-solid"
+//                 : "fa-regular"
+//                 }`}
+//               ></i>
+//               </button>
+//             </div>
+//           </div>
+//         );
+//       })}
+//     </div>
+//   </div>
+//   {isDisabled && (
+//       <div className="bg-black w-1/2 centered-container  flex justify-center" >        
+//       <img src={profilePreview} className="h-12 w-12 rounded-full"/>
+
+
+
+      
+//      <form onSubmit={editPostHandler} className="flex flex-col gap-y-4" >
+//         {/* User Avatar and Text Input */}
+//         <div className="flex items-center gap-x-2 ml-2">
+//           <textarea
+//             className="text-xs font-light bg-transparent text-white flex-1"
+//             placeholder="What's happening?"
+//             name="post"
+//             value={postContent}
+//             onChange={(e) => setPostContent(e.target.value)} // Update state on input change
+//             rows={3}
+//             cols={60}
+//           />
+//         </div>
+  
+//         {/* File Upload */}
+//         <div className="flex items-center gap-x-2 px-2">
+//           {/* Image Preview */}
+          
+//             <div className="mt-4">
+//               <img
+//                 src={imagePreview}
+//                 alt="Selected preview"
+//                 className="w-32 h-32 object-cover rounded-md"
+//               />
+//             </div>
+          
+  
+//           {/* Submit Button */}
+//           <div className="flex justify-end gap-x-2 items-center mr-2 w-full">
+//             <label htmlFor="file-input">
+//               <i className="fa-regular fa-image text-gray-400 cursor-pointer text-xl"></i>{" "}
+//               {/* Icon for file selection */}
+//             </label>
+//             <input
+//               id="file-input"
+//               type="file"
+//               accept="image/*"
+//               className="hidden" // Hide the actual file input
+//               onChange={handleFileChange} // Trigger preview change on file selection
+//             />
+//             <button  className="px-2 text-xs bg-pink-500 rounded-xl text-center pb-1" onClick={()=>editCancelHandler()}>cancel</button>
+//             <button
+//               className="px-2 text-xs bg-pink-500 rounded-xl text-center pb-1"
+//               type="submit"
+//             >
+//               Edit Post
+//             </button>
+//           </div>
+//         </div>
+//       </form>
+//       </div>
+//     )}
+//   </div>
+
+//   );
+}
+
+export default HomePage;
